@@ -2,6 +2,7 @@
 
 ## Installing
 ```sh
+git submodule update --init --recursive
 python setup.py develop
 ```
 > Installation is so ugly, because it requires `torch` and `opencv`, but the `pybind11` in `torch` can not handle the `opencv` lib.
