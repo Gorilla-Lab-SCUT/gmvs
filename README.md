@@ -7,7 +7,7 @@ python setup.py develop
 > Installation is so ugly, because it requires `torch` and `opencv`, but the `pybind11` in `torch` can not handle the `opencv` lib.
 > So we split the extension sources into two parts and use two install scripts.
 > 
-> You can also refer to the [torch-mvs](https://github.com/lzhnb/torch_mvs), but we did align their results.
+> You can also refer to the [torch-mvs](https://github.com/lzhnb/torch_mvs) (without `opencv`), but we did align their results.
 
 ## Preprocessing
 ```sh

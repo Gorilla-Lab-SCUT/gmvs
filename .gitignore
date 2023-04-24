@@ -1,0 +1,19 @@
+# directory
+*build*
+*egg*
+__pycache__
+.vscode
+data
+*ckpt*
+temp
+results
+dependencies
+
+# file
+.ccls
+*.so
+*.ply
+*.xyz
+*.obj
+*.png
+*.sh
