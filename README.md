@@ -2,9 +2,12 @@
 
 ## Installing
 ```sh
-git submodule update --init --recursive
 python setup.py develop
 ```
+> Installation is so ugly, because it requires `torch` and `opencv`, but the `pybind11` in `torch` can not handle the `opencv` lib.
+> So we split the extension sources into two parts and use two install scripts.
+> 
+> You can also refer to the [torch-mvs](https://github.com/lzhnb/torch_mvs), but we did align their results.
 
 ## Preprocessing
 ```sh
@@ -37,10 +40,3 @@ python -m gmvs.scripts.mvs_fusion_segmentaion --depth_normal_dir $MVS_DIR/depth_
         --save_dir $MVS_DIR/planar_prior/ --vis --clean_mesh # (--gen_mask --mask_dir planar_mask_mvs_clean) for init 
 ```
 
-<!-- 
-      baseline / gi1_gc2 / gi2_gc3
-0050: 4377620  / 7352799 / 4833486
-0084: 1748901  / 2969206 / 1776719
-0580: 5646921  / 8995206 / 6153378
-0616: 1436371  / 2259463 / 1465421 
--->
