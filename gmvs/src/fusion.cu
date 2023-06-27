@@ -71,8 +71,12 @@ __global__ void batch_fusion_kernel(
     float* __restrict__ output_proj_depth, // [H, W]
     float* __restrict__ output_proj_normal // [H, W, 3]
 ) {
-    const int32_t ref_r = blockIdx.x;
-    const int32_t ref_c = threadIdx.x;
+    const int32_t pixel_id = blockIdx.x * blockDim.x + threadIdx.x;
+    if (pixel_id >= height * width) {
+        return;
+    }
+    const int32_t ref_r = pixel_id / width;
+    const int32_t ref_c = pixel_id % width;
     const mvs::Problem problem = problems[0];
 
     // fullfill the output by 0
@@ -248,7 +252,9 @@ tuple<Tensor, Tensor> mvs::Fuser::run_fusion(
         {height, width, 3},
         torch::TensorOptions().dtype(torch::kFloat).device(torch::kCUDA));
 
-    batch_fusion_kernel<<<height, width>>>(
+    const int32_t num_thread = 256;
+    const int32_t num_blocks = (height * width - 1) / num_thread + 1;
+    batch_fusion_kernel<<<num_blocks, num_thread>>>(
         depths_cuda.data_ptr<float>(),
         normals_cuda.data_ptr<float>(),
         masks_cuda.data_ptr<bool>(),
